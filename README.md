@@ -3,4 +3,4 @@ A low-cost sound level meter based on MEMS microphone for Reverberation Time and
 
 Work in progress...
 
-Comming soon: 3D model, Type 1 SPL Meter comparisons and a Youtube Tutorial
+Coming soon: 3D model, Type 1 SPL Meter comparisons and a Youtube Tutorial
