@@ -1,14 +1,17 @@
+"""
+@author: Stéfano Mastella (last update: 28/05/2022)
+"""
+
 import pytta
 import os
 from pytta import roomir as rmr
 
-# %% Muda o current working directory do Python para a pasta onde este script
-# se encontra
-cwd = os.path.dirname(__file__)  # Pega a pasta de trabalho atual
-os.chdir(cwd+'\Meas 01') # Chose the folder you want to analyse, ex: (cwd+'\folder_name')
+# %% Changes the python's  current work directory to this script folder
+cwd = os.path.dirname(__file__)  # Get the current folder
+os.chdir(cwd+'\RT_Meas_01') # Chose the folder you want to analyse, ex: (cwd+'\folder_name')
 
-# %% Carrega a medição
-meas_name = 'roomres_S1-R1_O1-Mic2_varredura18_2.hdf5' # Write the name of the measurement (don't forget the ".hdf5")
+# %% Measurement load
+meas_name = 'roomres_S1-R1_O1-Mic1_varredura18_1.hdf5' # Write the name of the measurement (don't forget the ".hdf5")
 
 roomres = rmr._h5_load(meas_name)
 roomres = roomres.get(meas_name[:-5])

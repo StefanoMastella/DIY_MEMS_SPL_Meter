@@ -11,45 +11,6 @@ import scipy
 import pandas as pd
 import matplotlib.pyplot as plt
 
-#%%%%%%%%%%%%% TO DO LATER %%%%%%%%%%%%%%%%%%%%
-#%% Apply microphone correction curve
-# freqSignal = np.fft.rfft(signal, axis=0, norm=None)
-#                 MagfreqSignal = 20 * \
-#                     np.log10(np.abs(freqSignal))
-#                 correctedMagfreqSignal = MagfreqSignal
-#                 # Loading data from microphone
-#                 if self.params['micCorr'] is not None and self.params['applyMicCorr']:
-#                     # Apply magnitude correction
-#                     correctedMagfreqSignal -= self.params['micCorr']
-
-# # Correção da sensibilidade D -> Pa
-# med_corr = med * 20
-
-# X,Y = splfun.mic_curve()
-
-# lisfd = np.arange(0, 220501,1)
-# Y_interp = np.interp(lisfd,X,Y)
-
-# plt.xscale("log"); plt.ylim(-10, 10); plt.grid()
-# plt.plot(Y_interp)
-# plt.show()
-    
-# mic_corr=False #Choose the correction curve, otherwise mic_corr=False
-# if not mic_corr==False:
-#     med_corr = med_corr*0
-
-def mic_curve():
-    # Load the microphone curve from csv file
-    mic_curve = pd.read_csv('MEMS curve.csv', sep=';', parse_dates=False)
-    X = list(mic_curve.Freq)     
-    Y = list(mic_curve.Data)
-    
-    # Plot the microphone curve
-    plt.xscale("log"); plt.ylim(-10, 10); plt.grid()
-    plt.plot(X,Y)
-    plt.show()
-    
-    return X,Y
 
 #%% Octave Filter
 def octfilter(obj,nth,bands,
@@ -94,7 +55,7 @@ def rms(a):
 """
 splweighting
 
-@author: cite later and add link to Github
+@author: https://github.com/SiggiGue/pyfilterbank
 """
 
 from numpy import pi, convolve

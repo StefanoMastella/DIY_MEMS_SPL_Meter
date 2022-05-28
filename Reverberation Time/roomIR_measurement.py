@@ -1,9 +1,9 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 @author: mtslazarin
 
-Editted by Stéfano (26/05/2022)
+Editted by Stéfano (28/05/2022)
+
+For more information check PyTTa repository: https://github.com/PyTTAmaster/PyTTa
 """
 # %% Initializing
 
@@ -11,20 +11,18 @@ import pytta
 from pytta import roomir as rmr
 import os
 
-# %% Muda o current working directory do Python para a pasta onde este script
-# se encontra
+# %% Changes the python's  current work directory to this script folder
 
-cwd = os.path.dirname(__file__) # Pega a pasta de trabalho atual
+cwd = os.path.dirname(__file__) # Get the current folder
 os.chdir(cwd)
 
-tempHumid = None  # Para testes com LabJack offline
+tempHumid = None  # None when LabJack is offline
 fs = 44100
 
-# %% Carrega sinais de excitação e cria dicionário para o setup da medição
+# %% Sweep signals generation
 
 excitationSignals = {}
 excitationSignals['varredura18'] = pytta.generate.sweep(
-        # Geração do sweep (também pode ser carregado projeto prévio)
         freqMin=100,
         freqMax=10000,
         fftDegree=18,
@@ -35,7 +33,6 @@ excitationSignals['varredura18'] = pytta.generate.sweep(
         samplingRate=fs)
 
 excitationSignals['varredura17'] = pytta.generate.sweep(
-        # Geração do sweep (também pode ser carregado projeto prévio)
         freqMin=20,
         freqMax=20000,
         fftDegree=17,
@@ -45,119 +42,87 @@ excitationSignals['varredura17'] = pytta.generate.sweep(
         windowing='hann',
         samplingRate=fs)
 
-# %% Cria novo setup de medição e inicializa objeto de dados, o qual gerencia o
-# MeasurementSetup e os dados da medição em disco
+# %% Create a new measurement setup and initialize the data object, which manages 
+#MeasurementSetup and measurement data on disk
 
-MS = rmr.MeasurementSetup(name='Meas 01',  # Nome da medição
-                          samplingRate=fs,  # [Hz]
-                          # Interface de áudio
-                          # Sintaxe : device = [<in>,<out>] ou <in/out>
-                          # Utilize pytta.list_devices() para listar
-                          # os dispositivos do seu computador.
-                          device=[1,10], # PC Stéfano
-                          noiseFloorTp=5,  # [s] tempo de gravação do ruído de fundo
-                          calibrationTp=2,  # [s] tempo de gravação do sinal de calibração
-                          excitationSignals=excitationSignals,  # Sinais de excitação
-                          
-                          # Número de médias por tomada de medição: para grande
-                          # número de médias recomenda-se dividi-las em algumas
-                          # tomadas distintas.
-                          averages=2,  
-                          pause4Avg=True,  # Pausa entre as médias
-                          freqMin=100,  # [Hz]
-                          freqMax=10000,  # [Hz]
-                          
-                          # Dicionário com canais de saída, códigos associados
-                          # e grupos de canal (arranjos)
-                          inChannels={'Mic1': (1, 'Mic 1'),
-                                      'Mic2': (2, 'Mic 2')},
-                          # Dicionário com códigos dos canais e compensações
-                          # associadas à cadeia de entrada
-                          # inCompensations={'Mic1': (mSensFreq, mSensdBMag)},
-                          inCompensations={},
-                          
-                          # Dicionário com códigos e canais de saída associados
-                          outChannels={'O1': (1, 'Dodecaedro 1')},
-                          # Dicionário com códigos dos canais e compensações
-                          # associadas à cadeia de saída
-                          # outCompensations={'O2': (sSensFreq, sSensdBMag)})
-                          outCompensations={})
+MS = rmr.MeasurementSetup(name='RT_Meas_01',  # Measurement name
+        samplingRate=fs,  # [Hz]
+        # Sintax : device = [<in>,<out>] ou <in/out>
+        # Use pytta.list_devices() to get the audio devices 
+        device=[1,10], # [Teensy, PreSonus]
+        noiseFloorTp=5,  # [s] How long is the background noise measurement 
+        calibrationTp=2,  # [s] How long is the calibration process 
+        excitationSignals=excitationSignals,  
+        
+        # Number of averages per measurement takes: for large number of averages, 
+        # it is recommended to divide them into a few different takes.
+        averages=2,  
+        pause4Avg=True,  # Pause between averages
+        freqMin=100,  # [Hz]
+        freqMax=10000,  # [Hz]
+        
+        # Input and Output channels dictionaries
+        inChannels={'Mic1': (1, 'Mic 1'),
+                    'Mic2': (2, 'Mic 2')},
+        outChannels={'O1': (1, 'Dodecaedro 1')},  
+        
+        # Input and Output channels and compensations (just in case)
+        # inCompensations={'Mic1': (mSensFreq, mSensdBMag)},              
+        inCompensations={},       
+        # outCompensations={'O2': (sSensFreq, sSensdBMag)})
+        outCompensations={})
 D = rmr.MeasurementData(MS)
 
-# %% Cria nova tomada de medição
+# %% Creates a new Impulse Response take
 
 takeMeasure = rmr.TakeMeasure(MS=MS,
-                              # Passa objeto de comunicação
-                              # com o LabJack U3 + EI1050 probe
-                              tempHumid=tempHumid,
-                              kind='roomres',
-                              inChSel=['Mic2'],
-                              receiversPos=['R1'],
-                              # Escolha do sinal de excitação
-                              # disponível no Setup de Medição
-                              excitation='varredura18',
-                              # Código do canal de saída a ser utilizado.
-                              outChSel='O1',
-                              # Ganho na saída
-                              outputAmplification=-3, # [dB]
-                              # Configuração sala-fonte-receptor
-                              sourcePos='S1')
+        tempHumid=tempHumid, # LabJack info
+        kind='roomres',
+        inChSel=['Mic2'],
+        receiversPos=['R1'], 
+        excitation='varredura18', # Choose the excitation signal
+        outChSel='O1',
+        outputAmplification=-3, # [dB] Output gain (to avoid clipping)
+        sourcePos='S1') # Source position
 
-# %% Cria nova tomada de medição do ruído de fundo
+# %% Creates a new Background noise take
 
 takeMeasure = rmr.TakeMeasure(MS=MS,
-                              # Passa objeto de comunicação
-                              # com o LabJack U3 + EI1050 probe
-                              tempHumid=tempHumid,
-                              kind='noisefloor',
-                              inChSel=['Mic1','Mic2'],
-                              receiversPos=['R1','R1'])
+        kind='noisefloor',
+        inChSel=['Mic1','Mic2'],
+        receiversPos=['R1','R1'])
 
-# %% Cria nova tomada de medição para recalibração de fonte
+# %% Creates a new source calibration take
 
 takeMeasure = rmr.TakeMeasure(MS=MS,
-                              tempHumid=tempHumid,
-                              kind='sourcerecalibration',
-                              # Lista com códigos de canal individual ou
-                              # códigos de grupo
-                              inChSel=['Mic1'],
-                              # Escolha do sinal de excitação
-                              # disponível no Setup de Medição
-                              excitation='varredura18',
-                              # Código do canal de saída a ser utilizado.
-                              outChSel='O2',
-                              # Ganho na saída
-                              outputAmplification=-6) # [dB]
+        tempHumid=tempHumid,
+        kind='sourcerecalibration',
+        inChSel=['Mic1'], 
+        excitation='varredura18',
+        outChSel='O2',
+        outputAmplification=-6) # [dB]
 
-# %% Cria nova tomada de medição para calibração do microfone
+# %% Creates a new microphone calibration take
 
 takeMeasure = rmr.TakeMeasure(MS=MS,
-                              tempHumid=tempHumid,
-                              kind='miccalibration',
-                              # Lista com códigos de canal individual ou
-                              # códigos de grupo
-                              inChSel=['Mic1'])
+        tempHumid=tempHumid,
+        kind='miccalibration',
+        inChSel=['Mic1'])
 
-# %% Cria nova tomada de medição para calibração de canal
+# %% Creates a new channel calibration take
 
 takeMeasure = rmr.TakeMeasure(MS=MS,
-                              tempHumid=tempHumid,
-                              kind='channelcalibration',
-                              # Lista com códigos de canal individual ou
-                              # códigos de grupo
-                              inChSel=['Mic1'],
-                              # Escolha do sinal de excitação
-                              # disponível no Setup de Medição
-                              excitation='varredura17',
-                              # Código do canal de saída a ser utilizado.
-                              outChSel='O1',
-                              # Ganho na saída
-                              outputAmplification=-30) # [dB]
+        tempHumid=tempHumid,
+        kind='channelcalibration',
+        inChSel=['Mic1'],
+        excitation='varredura17',
+        outChSel='O1',
+        outputAmplification=-30) # [dB]
 
-# %% Inicia tomada de medição/aquisição de dados
+# %% Starts measurement 
 
 takeMeasure.run() 
 
-# %% Salva tomada de medição no disco
+# %% Save take on disk
 
 D.save_take(takeMeasure)
