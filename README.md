@@ -28,7 +28,7 @@ You will also need the following software:
 
 Connect the devices as shown in the figure below. 
 
-<img src="README Images/Cadeia medição - Mic MEMS.png">
+<img src="README Images/Teensy-MEMS connections.png">
 
 Install Teensyduino and plug Teensy into the USB port and load the Arduino code into it. It will set the microcontroller to work as a mono or stereo microphone.
 
