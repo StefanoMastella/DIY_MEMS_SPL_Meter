@@ -40,9 +40,6 @@ To install the last version compiled to pip, which can be slightly behind of dev
 ```
 
 ## ☕ Using the Sound Level Meter function
-
-U+1F50A ZZZ
-🔉
 ### Recording sound signals
 
 The code 'SPL_record' records the sound signals. It was set up to make calibrations and to record two channels separately. It can be changed to record only one channel if the user decides to.
