@@ -22,7 +22,7 @@ fs = 44100
 # %% Sweep signals generation
 
 excitationSignals = {}
-excitationSignals['varredura18'] = pytta.generate.sweep(
+excitationSignals['sweep18'] = pytta.generate.sweep(
         freqMin=100,
         freqMax=10000,
         fftDegree=18,
@@ -32,7 +32,7 @@ excitationSignals['varredura18'] = pytta.generate.sweep(
         windowing='hann',
         samplingRate=fs)
 
-excitationSignals['varredura17'] = pytta.generate.sweep(
+excitationSignals['sweep17'] = pytta.generate.sweep(
         freqMin=20,
         freqMax=20000,
         fftDegree=17,
@@ -45,11 +45,11 @@ excitationSignals['varredura17'] = pytta.generate.sweep(
 # %% Create a new measurement setup and initialize the data object, which manages 
 #MeasurementSetup and measurement data on disk
 
-MS = rmr.MeasurementSetup(name='RT_Meas_01',  # Measurement name
+MS = rmr.MeasurementSetup(name='RT_Meas_03',  # Measurement name
         samplingRate=fs,  # [Hz]
         # Sintax : device = [<in>,<out>] ou <in/out>
         # Use pytta.list_devices() to get the audio devices 
-        device=[1,10], # [Teensy, PreSonus]
+        device=[3,5], # [Teensy, PreSonus]
         noiseFloorTp=5,  # [s] How long is the background noise measurement 
         calibrationTp=2,  # [s] How long is the calibration process 
         excitationSignals=excitationSignals,  
@@ -80,7 +80,7 @@ takeMeasure = rmr.TakeMeasure(MS=MS,
         kind='roomres',
         inChSel=['Mic2'],
         receiversPos=['R1'], 
-        excitation='varredura18', # Choose the excitation signal
+        excitation='sweep18', # Choose the excitation signal
         outChSel='O1',
         outputAmplification=-3, # [dB] Output gain (to avoid clipping)
         sourcePos='S1') # Source position
@@ -98,7 +98,7 @@ takeMeasure = rmr.TakeMeasure(MS=MS,
         tempHumid=tempHumid,
         kind='sourcerecalibration',
         inChSel=['Mic1'], 
-        excitation='varredura18',
+        excitation='sweep18',
         outChSel='O2',
         outputAmplification=-6) # [dB]
 
@@ -115,7 +115,7 @@ takeMeasure = rmr.TakeMeasure(MS=MS,
         tempHumid=tempHumid,
         kind='channelcalibration',
         inChSel=['Mic1'],
-        excitation='varredura17',
+        excitation='sweep17',
         outChSel='O1',
         outputAmplification=-30) # [dB]
 

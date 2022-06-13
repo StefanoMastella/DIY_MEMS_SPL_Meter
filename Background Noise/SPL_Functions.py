@@ -7,10 +7,6 @@ SPL_functions
 import pytta
 from pytta.classes.filter import fractional_octave_frequencies as FOF
 import numpy as np
-import scipy
-import pandas as pd
-import matplotlib.pyplot as plt
-
 
 #%% Octave Filter
 def octfilter(obj,nth,bands,

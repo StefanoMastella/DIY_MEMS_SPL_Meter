@@ -7,7 +7,7 @@ import os
 #%%======================================= SPL calc =====================================
 # Open previous recording
 cwd = os.path.dirname(__file__)  
-os.chdir(cwd+'\Bkgn Meas 01') # Chose the folder you want to analyse, ex: (cwd+'\folder_name')
+os.chdir(cwd+'\\Bkgn Meas 01') # Chose the folder you want to analyse, ex: (cwd+'\folder_name')
 
 meas = pytta.read_wav("bkgn1.wav")
 # uncalib_fig = meas.plot_freq(); plt.show()
@@ -21,6 +21,9 @@ if rcv == 'y':
     
     meas.calib_pressure(0, calib) #pytta's function to calibrate
     # calib_fig = meas.plot_freq(); plt.show()
+    sens_offset=0 # Meaning no offset modification 
+else:
+    sens_offset=30 # AOP-94 dB; In the case of the msm261s4030h0, AOP = 124 (Check the Mic datasheet)
 
 #%% Calculating LZeq, LAeq and LCeq
 
@@ -40,9 +43,9 @@ Prms_C = splfun.rms(meas_C)
 
 # # Leq calculation
 p_ref = 20e-6
-LZeq = 20*np.log10(Prms_Z/p_ref); print('\nLZeq = ', LZeq, 'dB')
-LCeq = 20*np.log10(Prms_C/p_ref); print('LCeq = ', LCeq, 'dB')
-LAeq = 20*np.log10(Prms_A/p_ref); print('LAeq = ', LAeq, 'dB')
+LZeq = 20*np.log10(Prms_Z/p_ref)+sens_offset; print('\nLZeq = ', LZeq, 'dB')
+LCeq = 20*np.log10(Prms_C/p_ref)+sens_offset; print('LCeq = ', LCeq, 'dB')
+LAeq = 20*np.log10(Prms_A/p_ref)+sens_offset; print('LAeq = ', LAeq, 'dB')
 
 #%% Octave filters
 
@@ -55,9 +58,9 @@ med_A_pytta = pytta.SignalObj(signalArray = meas_A, domain='time', samplingRate 
 med_C_pytta = pytta.SignalObj(signalArray = meas_C, domain='time', samplingRate = fs)
 
 # Sound level in octaves
-LoctZ = splfun.octfilter(meas,nth,bands)
-LoctA = splfun.octfilter(med_A_pytta,nth,bands)
-LoctC = splfun.octfilter(med_C_pytta,nth,bands) 
+LoctZ = splfun.octfilter(meas,nth,bands)+sens_offset
+LoctA = splfun.octfilter(med_A_pytta,nth,bands)+sens_offset
+LoctC = splfun.octfilter(med_C_pytta,nth,bands)+sens_offset
 
 #%% Plot SPL in octaves
 freq = np.arange(1, np.size(bands)+1 , 1)

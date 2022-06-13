@@ -2,14 +2,14 @@ import pytta
 import os
 
 #%% Create a directory to save the current measurement
-meas_name = 'Bkgn Meas 01'
+meas_name = 'Bkgn Meas 02'
 os.mkdir(meas_name) # You'll get an error if trying to create a folder using same the names
 os.chdir(os.path.join(os.getcwd(), meas_name)) # Changes to the newly created directory
 
 #%% Signal recording function
 def record_signal(save_name1, save_name2):
     for n in range(2):
-        device = 1
+        device = 3
         measurementParams = {
                 'lengthDomain': 'time',
                 'timeLength': timelen,
