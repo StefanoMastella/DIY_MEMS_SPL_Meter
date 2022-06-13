@@ -91,5 +91,3 @@ In 'roomRT_calculation' simply select the folder where you previously saved the 
 Feel free to use it and modify it in any way you want. If you want to give me credits, cite this repository. 
 
 𝔉𝔞𝔯𝔢𝔴𝔢𝔩𝔩
-
-[⬆ Top](#nome-do-projeto)<br>
