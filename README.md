@@ -3,7 +3,7 @@ A low-cost sound level meter using on MEMS microphone for Reverberation Time and
 
 ## YouTube Tutorial 
 
-[<img src="README Images/tutorial_screenshot.png">](https://www.youtube.com/watch?v=_loZrHiwyes&ab_channel=OneiroAcoustika)
+[<img src="README Images/tutorial_screenshot.PNG">](https://www.youtube.com/watch?v=_loZrHiwyes&ab_channel=OneiroAcoustika)
 > https://www.youtube.com/watch?v=_loZrHiwyes&ab_channel=OneiroAcoustika
 
 ## Requirements
@@ -61,7 +61,7 @@ Use the code 'SPL_Meter' to calculate and plot the sound pressure levels. Change
 
 To calibrate the device one can use a commercial calibrator along with a coupler for the MEMS microphone, use the calibration signal available in the 'Bkgn Meas 01' folder (but only if one uses the same microphone model I did), or use the sensitivity value to adjust the SPL curves. In the third case, the offset value is equal to the Acoustical Overload Point (AOP) minus 94 dB. Declare the 'sens_offset' value and the code will do the rest.
 
-<img src="README Images/SPL_plot.png">
+<img src="README Images/SPL_plot.PNG">
 
 In the end, it will return the SPL plot with three different weightings and will print the equivalent sound levels.
 
