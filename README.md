@@ -90,7 +90,7 @@ In 'roomRT_calculation' simply select the folder where you previously saved the 
 
 Thanks to [Viviane Melo](https://www.researchgate.net/profile/Viviane-Melo-3), my friend and academic advisor, for all the support. 
 
-Thanks to [Felipe Mello](https://www.researchgate.net/profile/Felipe-Mello-9) and [William D'Andrea Fonseca](https://www.researchgate.net/profile/William-Fonseca-4) for their research on which this model was based. Check their work in: 
+Thanks to [Felipe Mello](https://www.researchgate.net/profile/Felipe-Mello-9), [William D'Andrea Fonseca](https://www.researchgate.net/profile/William-Fonseca-4) and [Paulo Mareze](https://www.researchgate.net/profile/Paulo-Mareze) for their research on which this model was based. Check their work in: 
 
 F. R. Mello; W. D’A. Fonseca; P. H. Mareze. MEMS digital microphone and Arduino compatible
 microcontroller: an embedded system for noise monitoring. In 50th International Congress and
