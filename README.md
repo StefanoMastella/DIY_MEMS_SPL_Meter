@@ -86,6 +86,17 @@ In 'roomRT_calculation' simply select the folder where you previously saved the 
 
 <img src="Reverberation Time\RT Plots/TR.png">
 
+## Special thanks
+
+Thanks to [Viviane Melo](https://www.researchgate.net/profile/Viviane-Melo-3), my friend and academic advisor, for all the support. 
+
+Thanks to [Felipe Mello](https://www.researchgate.net/profile/Felipe-Mello-9) and [William D'Andrea Fonseca](https://www.researchgate.net/profile/William-Fonseca-4) for their research on which this model was based. Check their work in: 
+
+F. R. Mello; W. D’A. Fonseca; P. H. Mareze. MEMS digital microphone and Arduino compatible
+microcontroller: an embedded system for noise monitoring. In 50th International Congress and
+Exposition on Noise Control Engineering — Internoise 2021, pages 1–12, Washington, DC,
+USA, Aug. 2021. doi: 10.3397/IN-2021-2557.
+
 ## 📝 License
 
 Feel free to use it and modify it in any way you want. If you want to give me credits, cite this repository. 
